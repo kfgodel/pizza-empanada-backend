@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.tenpines</groupId>
+  <artifactId>pizza-empanada-backend</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.0.M7</version>
+    <relativePath/> <!-- lookup parent from repository -->
+  </parent>
+
+  <properties>
+    <java.version>1.8</java.version>
+
+    <version.guava>23.5-jre</version.guava>
+    <version.nary>2.0.5</version.nary>
+    <version.vertx>3.5.0</version.vertx>
+    <version.slf4j>1.7.6</version.slf4j>
+    <version.logback>1.1.1</version.logback>
+
+  </properties>
+
+  <scm>
+    <url>https://github.com/kfgodel/pizza-empanada-backend</url>
+    <connection>scm:git:ssh://git@github.com/kfgodel/pizza-empanada-backend.git</connection>
+    <developerConnection>${project.scm.connection}</developerConnection>
+  </scm>
+
+  <dependencies>
+
+
+    <!-- Agregamos el core de vertx -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>${version.vertx}</version>
+    </dependency>
+
+    <!-- Permite server http con web sockets -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-web</artifactId>
+      <version>${version.vertx}</version>
+    </dependency>
+
+    <!-- Agrega utilidades para manejar colecciones -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${version.guava}</version>
+    </dependency>
+
+    <!-- Agrega la posibilidad de modelar incertidumbre con 0,1 o N elementos -->
+    <dependency>
+      <groupId>ar.com.kfgodel</groupId>
+      <artifactId>nary</artifactId>
+      <version>${version.nary}</version>
+    </dependency>
+
+
+    <!-- logueo -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${version.slf4j}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${version.logback}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${version.logback}</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <!-- De donde se obtienen las dependencias -->
+  <repositories>
+    <repository>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+    </repository>
+    <repository>
+      <id>tenpines_repo</id>
+      <name>Repositorio 10pines</name>
+      <url>http://services.10pines.com:8081/artifactory/repo</url>
+      <snapshots>
+        <!-- Queremos que siempre busque snapshots nuevos -->
+        <updatePolicy>interval:5</updatePolicy>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>kfgodel_mosquito</id>
+      <name>Repo Mosquito</name>
+      <url>http://kfgodel.info:8081/nexus/content/groups/public/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>tenpines_repo</id>
+      <name>Repositorio 10pines</name>
+      <url>http://services.10pines.com:8081/artifactory/repo</url>
+      <snapshots>
+        <!-- Queremos que siempre busque snapshots nuevos -->
+        <updatePolicy>interval:5</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-snapshots</id>
+      <name>Spring Snapshots</name>
+      <url>https://repo.spring.io/snapshot</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-milestones</id>
+      <name>Spring Milestones</name>
+      <url>https://repo.spring.io/milestone</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <!-- Repositorios en el que subimos nuestros jars y wars -->
+  <distributionManagement>
+    <snapshotRepository>
+      <id>artifactory_10pines</id>
+      <name>libs-snapshot-local</name>
+      <url>http://services.10pines.com:8081/artifactory/libs-snapshot-local</url>
+      <uniqueVersion>false</uniqueVersion>
+    </snapshotRepository>
+    <repository>
+      <id>artifactory_10pines</id>
+      <name>libs-release-local</name>
+      <url>http://services.10pines.com:8081/artifactory/libs-release-local</url>
+      <uniqueVersion>false</uniqueVersion>
+    </repository>
+  </distributionManagement>
+
+
+</project>

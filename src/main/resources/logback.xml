@@ -1,0 +1,99 @@
+<configuration debug="false">
+
+  <!--
+    Este archivo define la configuración del logueo de la aplicación y es interpretado por logback,
+    que recibe las llamadas de logueo del resto de las apis (log4j, commons-logging, etc) a través
+    de slf4j que hace de wrapper del resto.
+    La sintaxis para los appenders que se pueden agregar está en: http://logback.qos.ch/manual/appenders.html
+    y la sintaxis para los patrones de formateo en: http://logback.qos.ch/manual/layouts.html#conversionWord
+   -->
+
+  <!-- Output normal por consola -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>[%-23d{ISO8601}] %-5p [%X{currentUsername}] %-120m | %-40c | [%t] | at %C\(%F:%L\) Running:\(%12r\)%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <!-- Log standard que rota cada 10Mb con un maximo de 10 archivos-->
+  <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>logs/application.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+      <fileNamePattern>logs/application.%i.log</fileNamePattern>
+      <minIndex>1</minIndex>
+      <maxIndex>10</maxIndex>
+    </rollingPolicy>
+
+    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+      <maxFileSize>10MB</maxFileSize>
+    </triggeringPolicy>
+    <encoder>
+      <pattern>[%-23d{ISO8601}] %-5p [%X{currentUsername}] %-120m | %-40c | [%t] at %C\(%F:%L\) Running:\(%12r\)%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <!-- Queremos debug del setup de la app -->
+  <logger name="com.tenpines.encolapp" level="DEBUG"/>
+
+  <!--<logger name="org.apache" level="INFO"/>-->
+  <!--<logger name="org.springframework" level="INFO"/>-->
+  <!--<logger name="org.springframework.security" level="WARN"/>-->
+  <!--<logger name="org.springframework.core.convert" level="INFO"/>-->
+  <!--<logger name="com.tenpines.baseldap" level="DEBUG"/>-->
+
+  <!-- Detalles del inicio omitidos, comentar si falla algo, o si se requiere más detalle en el log-->
+  <!--<logger name="org.hibernate" level="WARN"/>-->
+  <!--<logger name="org.springframework.orm.hibernate3" level="WARN"/>-->
+  <!--<logger name="org.springframework.web.context.support.XmlWebApplicationContext" level="WARN"/>-->
+  <!--<logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="WARN"/>-->
+  <!--<logger name="org.springframework.beans.factory.xml" level="WARN"/>-->
+  <!--<logger name="org.springframework.security.web.access.intercept.FilterSecurityInterceptor" level="WARN"/>-->
+  <!--<logger name="net.sf.oval.integration.spring.SpringInjector" level="WARN"/>-->
+  <!--<logger name="org.springframework.web.servlet" level="WARN"/>-->
+
+  <!-- Queremos que nos diga de que properties toma los datos de ambiente -->
+  <!--<logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="INFO"/>-->
+
+  <!-- No nos interesa la security version ni la version de config o el orden de los chain -->
+  <!--<logger name="org.springframework.security.core.SpringSecurityCoreVersion" level="WARN"/>-->
+  <!--<logger name="org.springframework.security.config.SecurityNamespaceHandler" level="WARN"/>-->
+  <!--<logger name="org.springframework.security.config.http.HttpSecurityBeanDefinitionParser" level="WARN"/>-->
+
+  <!-- No queremos que nos tire warning por el DTD de los workflows -->
+  <!--<logger name="org.hibernate.util.DTDEntityResolver" level="ERROR"/>-->
+
+  <!-- No queremos detalle de los filtros -->
+  <!--<logger name="org.springframework.security.web.DefaultSecurityFilterChain" level="WARN"/>-->
+
+  <!-- No queremos detalles de versiones de Quartz -->
+  <!--<logger name="org.quartz" level="WARN"/>-->
+
+  <!-- Queremos saber qué pasa con quartz -->
+  <!--<logger name="org.springframework.scheduling.quartz.SchedulerFactoryBean" level="INFO"/>-->
+
+  <!-- Loguea las decisiones de seguridad en las partes restringidas
+  <logger name="org.springframework.security.access.intercept" level="DEBUG"/>
+  -->
+
+  <!-- Queremos excluir del log los properties que levanta, que ya lo informa al detectar ambientes -->
+  <!--<logger name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer" level="WARN"/>-->
+
+  <!-- Ignoramos una linea de log que nos dice que encontro un annotation, gran cosa! -->
+  <!--<logger name="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" level="WARN"/>-->
+
+
+  <!--logger name="jdbc.sqlonly " level="INFO" /-->
+  <!-- PARA VER EL VALOR DE LAS QUERIES -->
+  <!-- 	<logger name="org.hibernate.type" level="TRACE"> -->
+  <!-- 		<level value="trace"/>  -->
+  <!-- 	</logger> -->
+
+  <root level="DEBUG">
+    <!-- En producción no excribimos en el out -->
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="ROLLING_FILE"/>
+  </root>
+
+</configuration>
